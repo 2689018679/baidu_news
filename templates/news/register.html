@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度注册</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0,minimal-ui">
+    <script src="/static/index/js/rem.js"></script>
+    <script src="/static/index/js/jQuery.js"></script>
+    <script src="https://at.alicdn.com/t/font_847588_z3xse90jppp.js"></script>
+    <link rel="stylesheet" href="/static/index/css/register.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_847588_vf8e7pp01am.css">
+</head>
+<body>
+    <header class="head">
+        <a href="/index/openlogin"><i class="iconfont icon-fanhui"></i></a>
+            百度账号注册
+    </header>
+    <div class="baidu"></div>
+    <ul class="input">
+        <li>
+            <input type="text" placeholder="输入手机号" id="username">
+            <i class="iconfont icon-clear" id="chongzhi"></i>
+        </li>
+        <li>
+            <input type="password" placeholder="输入密码" id="password">
+        </li>
+        <button id="register">注册</button>
+    </ul>
+    <div class="bottom">
+        <input type="checkbox" name="">
+        <h3>同意并阅读<a>百度用户协议</a>及<a>百度隐私权保护声明</a></h3>
+    </div>
+    <div class="account">
+        <h3>只需一个百度账号，即可通行所有百度产品/服务</h3>
+        <div>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-baidu1"></use>
+            </svg>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-tieba"></use>
+            </svg>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-baiduyun"></use>
+            </svg>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-baiduditu"></use>
+            </svg>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-baiduwaimai"></use>
+            </svg>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-nuomi"></use>
+            </svg>
+        </div>
+    </div>
+</body>
+<script>
+    $("#register").click(function(){
+        username=$('#username').val()
+        password=$('#password').val()
+        $.ajax({
+            url:'/index/register',
+            type:'post',
+            data:{username:username,password:password},
+            success:function(e){
+                if(e=='ok'){
+                    window.location.href="/index/openlogin"
+                }else{
+                    $('.input').append($(`<li id="tip">${e}<li>`))
+                    $('.input li').last().remove()
+                    let t=setInterval(d,3000)
+                    function d(){
+                        $("#tip").remove()
+                    }
+                    clearInterval(d)
+                }
+            }
+        })
+    })
+</script>
+</html>

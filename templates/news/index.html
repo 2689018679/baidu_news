@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度新闻</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0,minimal-ui">
+    <script src="/static/index/js/rem.js"></script>
+    <script src="/static/index/js/jQuery.js"></script>
+    <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+    <link rel="stylesheet" href="/static/index/css/index.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_847588_ss2fdcd6diq.css">
+</head>
+<body>
+    
+<header>
+    <span class="baidu">
+        <h3>Bai</h3>
+        <i class="iconfont icon-baidu"></i>
+        <h3>新闻</h3>
+    </span>
+    <a href="https://m.baidu.com/"><i class="iconfont icon-baidu" id="baidu"></i></a>
+    <i class="iconfont icon-renwu" id="man"></i>
+    <i class="iconfont icon-sousuo" id="sousuo"></i>
+    <input type="text" id="sousuo_input">
+    <input type="hidden" id="cid" name="cid" value="">
+</header>
+<nav class="min">
+    <ul class="nav">
+        {% for item in data %}
+        <li>{{item[1]}}</li>
+        {% endfor %}
+        <i class="iconfont icon-xiala" id="xiala"></i>
+    </ul>
+</nav>
+<nav class="max">
+    <div class="nav">
+        <h3>切换栏目</h3>
+        <i class="iconfont icon-xiala1" id="xiala1"></i>
+    </div>
+    <ul>
+        {% for item in data %}
+        <li id="max{{item[0]}}">{{item[1]}}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        <li class="del">删除及排序</li>
+    </ul>
+</nav>
+<main>
+    <ul class="mainbox" style="z-index:10;"></ul>
+</main>
+<div class="login">
+    <div class="headers">
+        <i class="iconfont icon-fanhui"></i>
+    <div class="man">
+        <img src="/{{headimgurl}}" alt="">
+        {% if flag==1 %}
+        <form action="javascript:;" enctype="multipart/form-data" id="imgurl">
+            <input type="file" id="image" value="+ 浏览上传" name="file">
+        </form>
+        {% endif %}
+    </div>
+    {% if flag==0 %}
+    <a href="/index/openlogin"><button>立即登录</button></a>
+    {% else %}
+    <a href="/index/loginout"><button>退出登录</button></a>
+    {% endif %}
+    </div>
+    <ul>
+        <li>
+            <i class="iconfont icon-wode-xiaoxi"></i>
+            <span>我的消息</span>
+        </li>
+        <li>
+            <i class="iconfont icon-wodeshoucang"></i>
+            <span>我的收藏</span>
+        </li>
+        <li>
+            <i class="iconfont icon-iconwutumoshixxhdpi01"></i>
+            <span>无图模式</span>
+            <input type="checkbox">
+        </li>
+    </ul>
+    <div class="bottom">
+        <h3>用户协议</h3>
+        <h3>隐私策略</h3>
+    </div>
+</div>
+</body>
+<script src="/static/index/js/index.js"></script>
+<script>
+    $(".min li").first().addClass("hot")
+    $("#image").on("change",function(){
+        let form = new FormData($("#imgurl")[0]);
+        form.append("imgurl",$("#image").val());
+        $.ajax({
+            url:"/index/uploadPimg",
+            type:"post",
+            data:form,
+            processData: false,
+            contentType: false,
+            success:function(e){
+              console.log(e)
+              if(e['info']=='ok'){
+                $('#img').attr('src',e['imgurl'])
+              }
+            }
+        })
+    })
+</script>
+</html>

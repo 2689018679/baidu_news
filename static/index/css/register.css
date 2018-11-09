@@ -1,0 +1,140 @@
+@import "base.css";
+body{
+    background-color: #F5F5F5;
+}
+header{
+    width: 100%;
+    height: .98rem;
+    background-color: #fff;
+    border-bottom: 0.01rem solid #d6d6d6;
+    color: #333;
+    text-align: center;
+    font-size: .35rem;
+    line-height: .98rem;
+    position: relative;
+}
+.head a i{
+    float: left;
+    position: absolute;
+    left: .33rem;
+    color: #333;
+}
+.baidu{
+    width: 3rem;
+    height: 1rem;
+    margin:0.7rem auto;
+    background:url("../img/baidu.png") no-repeat;
+    background-size: contain;
+}
+.input{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 0.33rem;
+    position:relative;
+}
+#tip{
+    position:absolute;
+    background: #fff;
+    border-radius:8px;
+    width:80%;
+    height:30px;
+    top:30px;
+    left:0;
+    right:0;
+    margin:0 auto;
+    font-size: 24px;
+    display；flex;
+    justify-content:center;
+}
+.input li{
+    width: 100%;
+    height: 0.92rem;
+    display: flex;
+    position: relative;
+}
+.input li input{
+    width: 100%;
+    height: 100%;
+    margin:0;
+    border: 0.01rem solid #ccc;
+    border-radius: 0.05rem;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding-left: 0.33rem;
+    outline: none;
+    color: #333;
+}
+.input li input::placeholder{
+    font-size: .35rem;
+    color: #ccc;
+}
+.input li i{
+    position: absolute;
+    right:0.33rem;
+    top:0.25rem;
+    font-size: .4rem;
+    color: #ccc;
+}
+#chongzhi{
+    display: none;
+}
+button{
+    width: 100%;
+    height: 0.92rem;
+    color: #fff;
+    font-size: .35rem;
+    text-align: center;
+    border: 0.01rem solid #3c76ff;
+    background: #3c76ff;
+    border-radius: 0.05rem;
+}
+.bottom{
+    width: 100%;
+    margin-top:0.33rem;
+    box-sizing: border-box;
+    padding:0 0.33rem;
+    display: flex;
+}
+.bottom input{
+    width: 0.3rem;
+    height: 0.36rem;
+    margin-right: 0.2rem;
+}
+.bottom h3{
+    font-size: 0.28rem;
+    color: #999;
+    font-weight: normal;
+}
+.bottom h3 a{
+    text-decoration: underline;
+    margin:0 0.1rem;
+}
+.account{
+    width: 100%;
+    box-sizing: border-box;
+    padding:0 0.33rem;
+    position: fixed;
+    bottom:0.5rem;
+}
+.account h3{
+    font-size: 0.28rem;
+    color: #bcbcbc;
+    font-weight: normal;
+    text-align: center;
+}
+.account div{
+    width: 100%;
+    height: 0.35rem;
+    box-sizing: border-box;
+    padding:0 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.22rem;
+}
+.icon {
+    width: 0.35rem; 
+    height: 0.35rem;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+ }

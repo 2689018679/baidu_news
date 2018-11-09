@@ -1,0 +1,139 @@
+@import "base.css";
+#answer{
+    width: 100%;
+    border: 1px solid;
+    height: 37px;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+header{
+    width: 100%;
+    height: .98rem;
+    background-color: #3e98f0;
+    border-bottom: 0.01rem solid #5dabf0;
+    color: #fff;
+    text-align: center;
+    font-size: .32rem;
+    line-height: .98rem;
+    position: relative;
+}
+.head a i{
+    float: left;
+    position: absolute;
+    left: .33rem;
+    color: #fff;
+}
+main{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 .33rem;
+    margin: .3rem 0;
+}
+main input{
+    height: 1.3rem;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding-left: .23rem;
+}
+main input::placeholder{
+    vertical-align: middle;
+    font-size: .3rem;
+    line-height: .3rem;
+    color: #ccc;
+}
+main .bottom{
+    width: 100%;
+    height: .6rem;
+    font-size: .3rem;
+    line-height: .6rem;
+    display: flex;
+    justify-content: space-between;
+    margin: .3rem 0;
+    
+}
+main .bottom h3{
+    padding: 0 .28rem;
+    background-color: #239bf0;
+    color: #fafafa;
+    font-size: .3rem;
+    line-height: .6rem;
+}
+main h4{
+    width: 100%;
+    height: .88rem;
+    text-align: center;
+    font-size: .3rem;
+    background-color: #f5f7fb;
+    font-weight: normal;
+    line-height: .88rem;
+}
+footer ul{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 .33rem;
+}
+footer li{
+    width: 100%;
+    box-sizing: border-box;
+    padding: .28rem 0;
+    border-bottom:1px solid #ccc;
+    overflow:hidden;
+}
+footer li .left{
+    width: .7rem;
+    height: .7rem;
+    border-radius: 50%;
+    overflow: hidden;
+    float:left;
+}
+footer li .left img{
+    display: block;
+    width: .7rem;
+    height: .7rem;
+}
+footer li .right{
+    width: 6rem;
+    float:right;
+}
+footer li .right div{
+    display: flex;
+    justify-content: space-between;
+    margin: .05rem 0;
+}
+footer li .right h2{
+    color: #333;
+    font-size: .3rem;
+}
+footer li .right h3{
+    color: #999;
+    font-size: .25rem;
+}
+footer li .right h4{
+    width: 100%;
+    font-size: .3rem;
+    font-weight: normal;
+}
+footer .answer_con{
+    padding:0 40px;
+    float:left;
+    font-size: .3rem;
+    font-weight: normal;
+}
+footer .answer_con span{
+    color: #239bf0;
+    font-size: .25rem;
+}
+footer .com{
+    width: 1.2rem;
+    height: 0.62rem;
+    overflow: hidden;
+    background: url(../img/bg.png) no-repeat center -3.85rem;
+    background-size: 2rem;
+    font-size: .2rem;
+    margin-left: .33rem;
+    padding-left: .1rem;
+    line-height: .5rem;
+    color: #fff;
+}

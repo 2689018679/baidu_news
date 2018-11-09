@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评论</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0,minimal-ui">
+    <script src="/static/index/js/rem.js"></script>
+    <script src="/static/index/js/jQuery.js"></script>
+    <link rel="stylesheet" href="/static/index/css/comment.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_847588_03eavjy4c0dw.css">
+</head>
+<body>
+    
+<header class="head">
+    <input type="hidden" name="n_id" value="{{n_id}}">
+    <input type="hidden" name="author" value="{{name}}">
+    <a href="/index/opendetails{{n_id}}"><i class="iconfont icon-fanhui"></i></a>
+        评论
+</header>
+<main>  
+    <input type="text" placeholder="我来说两句..." name="con">
+    <div class="bottom">
+        {% if flag==0 %}
+        <a href="/index/openlogin">点此处登录后再评论</a>
+        {% else %}
+        <a>欢迎{{name}}</a>
+        {% endif %}
+        <h3 id="btn">发表</h3>
+    </div>
+    <h4><span>{{length}}</span>条评论</h4>
+</main>
+<footer>
+    <div class="com">最新评论</div>
+    <ul>
+        {% for item in data %}
+        <li id="{{item[0][0]}}">
+            <div class="left">
+                <img src="/static/index/img/1.jpg" alt="">
+            </div>
+            <div class="right">
+                <div>
+                    <h2>{{item[0][2]}}</h2>
+                    <h3 class="zan"><span>{{item[0][5]}}</span> 赞</h3>
+                </div>
+                <div>
+                    <h3>
+                        {% if item[0][8]=='s' %}
+                        <span>{{item[0][3]}}</span>秒前
+                        {% else %}
+                        <span>{{item[0][3]}}</span>
+                        {% endif %}
+                    </h3>
+                    <h3 class="answer">回复</h3>
+                </div>
+                <h4>{{item[0][4]}}</h4>
+            </div>
+            {% for item2 in item[1]%}
+            <h5 class="answer_con" id="{{item2[0]}}">
+                {{item2[2]}}:@{{item2[7]}}:{{item2[4]}}
+                <span class="answer1">回复</span>
+            </h5>
+            {% endfor %}
+        </li>
+        {% endfor %}
+    </ul>
+</footer>
+</body>
+<script>
+    $("#btn").click(function(){
+    let con=$("input[name='con']").val()
+    let n_id=$("input[name='n_id']").val()
+        $.ajax({
+            url:'/index/comment',
+            type:'post',
+            data:{con:con,n_id:n_id},
+            success:function(e){
+                console.log(e)
+                if(e['type']=='ok'){
+                    $("footer ul").prepend($(`
+                        <li id="${e['n_comid']}" >
+                            <div class="left">
+                                <img src="/static/index/img/1.jpg" alt="">
+                            </div>
+                            <div class="right">
+                                <div>
+                                    <h2>{{name}}</h2>
+                                    <h3 class="zan"><span>0</span> 赞</h3>
+                                </div>
+                                <div>
+                                    <h3><span>0</span>秒前</h3>
+                                    <h3 class="answer">回复</h3>
+                                </div>
+                                <h4>${con}</h4>
+                            </div>
+                        </li>
+                    `))
+                    $("input[name='con']").val("")
+                }else{
+                    $(location).attr('href',`/index/openlogin`);
+                }
+            }
+        })
+    })
+
+    $("footer").click(function(e){
+        if($(e.target)[0].className=="zan"){
+            zannum=parseInt($(e.target).find("span").html(), 10)+1
+            id=$(e.target).parents("li").attr("id")
+            $.ajax({
+                url:"/index/dianzan",
+                type:"post",
+                data:{
+                    zannum:zannum,
+                    id:id
+                },
+                success:function(c){
+                    if(c=='ok'){
+                        $(e.target).find("span").html(zannum)
+                    }
+                }
+            })
+        }
+        if($(e.target)[0].className=="answer"){
+            let n_id=$("input[name='n_id']").val()
+            let author=$("input[name='author']").val()
+            $(e.target).parents("li").after($(`<input id="answer"> </input>`))
+            id=$(e.target).parents("li").attr("id")
+            $("#answer").focus()
+            answer_con=""
+            $("#answer").blur(function(){
+                answer_con=$("#answer").val()
+                $("#answer").remove()
+                <!--console.log(answer_con)-->
+                $.ajax({
+                    url:'/index/answer_comment',
+                    type:'post',
+                    data:{id:id,answer_con:answer_con,n_id:n_id},
+                    success:function(v){
+                        $(e.target).parents("li").append($(`
+                        <h5 class="answer_con" id="${v['new_comid']}">
+                            ${author}:@${v['q_author']}:${answer_con}
+                            <span class="answer1">回复</span>
+                        </h5>
+                        `))
+                    }
+                })
+            })
+        }
+        if($(e.target)[0].className=="answer1"){
+            let n_id=$("input[name='n_id']").val()
+            let author=$("input[name='author']").val()
+            $(e.target).parents("h5").after($(`<input id="answer"> </input>`))
+            id=$(e.target).parents("h5").attr("id")
+            $("#answer").focus()
+            answer_con=""
+            $("#answer").blur(function(){
+                answer_con=$("#answer").val()
+                $("#answer").remove()
+                <!--console.log(answer_con)-->
+                $.ajax({
+                    url:'/index/answer_comment',
+                    type:'post',
+                    data:{id:id,answer_con:answer_con,n_id:n_id},
+                    success:function(v){
+                        $(e.target).parents("li").append($(`
+                        <h5 class="answer_con" id="${v['new_comid']}">
+                            ${author}:@${v['q_author']}:${answer_con}
+                            <span class="answer1">回复</span>
+                        </h5>
+                        `))
+                    }
+                })
+            })
+        }
+
+
+    })
+
+</script>
+</html>

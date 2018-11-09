@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0,minimal-ui">
+    <script src="/static/index/js/rem.js"></script>
+    <script src="/static/index/js/jQuery.js"></script>
+    <link rel="stylesheet" href="/static/index/css/details.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_847588_03eavjy4c0dw.css">
+</head>
+<body>
+<header class="head">
+    <a href="/index"><i class="iconfont icon-fanhui"></i></a>
+        详情
+</header>
+<div class="bg">
+    {% for item in data %}
+    <input type="hidden" name="n_id" value="{{item[0]}}" id="n_id">
+    <h1>{{item[1]}}</h1>
+    <div class="time">
+        <h2>{{item[2]}}</h2>
+        <h3>{{item[4]}}</h3>
+    </div>
+    {{item[7]|safe}}
+    {% endfor %}
+</div>
+<ul class="mainbox" style="z-index:10;">
+    <div class="head">相关新闻</div>
+    {% for item in tuijian%}
+    {% if item[4]==0%}
+    <li><a href="/index/opendetails{{item[0]}}">
+        <h3>{{item[1]}}</h3>
+        <div class="bottom">
+            <h5>{{item[2]}}</h5>
+        </div>
+    </a></li>
+    {% elif item[4]>=3 %}
+    <li><a href="/index/opendetails{{item[0]}}">
+        <h3>{{item[1]}}</h3>
+        <div class="imgbottom">
+            {% for img in item[3] %}
+            <img src="{{img}}" alt="">
+            {% endfor %}
+        </div>
+        <div class="bottom">
+            <h5>{{item[2]}}</h5>
+            <h6>热点</h6>
+        </div>
+    </a></li>
+    {% else %}
+    <li><a href="/index/opendetails{{item[0]}}">
+        <div class="left">
+            <img src="{{item[3]}}" alt="">
+        </div>
+        <div class="right">
+            <h3>{{item[1]}}</h3>
+            <div class="bottom">
+                <h5>{{item[2]}}</h5>
+                <h6>热点</h6>
+            </div>
+        </div>
+    </a></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+<footer class="foot">
+    <input type="text" placeholder="我来说两句...">
+    <i class="iconfont icon-pinglun"></i>
+    <i class="iconfont icon-shoucang"></i>
+</footer>
+</body>
+<script>
+    let n_id=$('#n_id').val()
+    $("footer input").focus(function(){
+        $(location).attr('href',`/index/opencomment${n_id}`);
+    })
+</script>
+</html>

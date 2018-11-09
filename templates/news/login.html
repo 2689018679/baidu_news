@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度登录</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0,minimal-ui">
+    <script src="/static/index/js/rem.js"></script>
+    <script src="/static/index/js/jQuery.js"></script>
+    <link rel="stylesheet" href="/static/index/css/login.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_847588_vf8e7pp01am.css">
+</head>
+<body>
+    <header class="head">
+        <a href="/index"><i class="iconfont icon-fanhui"></i></a>
+            登录百度账号
+    </header>
+    <div class="baidu"></div>
+    <ul class="input">
+        <li>
+            <input type="text" placeholder="手机号/邮箱/用户名" id="username" name="username">
+            <i class="iconfont icon-clear" id="chongzhi"></i>
+        </li>
+        <li>
+            <input type="password" placeholder="密码" id="password" name="password">
+            <i class="iconfont icon-keshi" id="xianshi"></i>
+        </li>
+        <button id="login">登录</button>
+    </ul>
+    <div class="bottom">
+        <h3>登录遇到问题</h3>
+        <h3>短信验证登录</h3>
+    </div>
+    <a href="/index/openregister" id="zhuce">立即注册</a>
+</body>
+<script>
+    $("#login").click(function(){
+        username=$('#username').val()
+        password=$('#password').val()
+        $.ajax({
+		  url:'/index/login',
+		  type:'post',
+		  data:{username:username,password:password},
+		  success:function(e){
+		      if(e=='ok'){
+                    window.location.href="/index"
+                }else{
+                    $('.input').append($(`<li id="tip" style="background:#ccc;">${e}<li>`))
+                    $('.input li').last().remove()
+                    let t=setInterval(d,3000)
+                    function d(){
+                        $("#tip").remove()
+                    }
+                    clearInterval(d)
+                }
+		  }
+		})
+    })
+</script>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="/static/admin/css/pintuer.css">
+<link rel="stylesheet" href="/static/admin/css/admin.css">
+<script src="/static/admin/js/jquery.js"></script>
+<script src="/static/admin/js/pintuer.js"></script>
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder"> 添加分类</strong></div>
+  <table class="table table-hover text-center" id="table">
+    <tr>
+      <th width="10%">ID</th>
+      <th width="15%">名称</th>
+      <th width="15%">操作</th>
+    </tr>
+
+      {% for item in data %}
+    <tr id="item{{item[0]}}" >
+      <td>{{item[0]}}</td>
+      <td>{{item[1]}}</td>
+      <td><div class="button-group">
+      <a class="button border-main" href="/openmodclass{{item[0]}}"><span class="icon-edit"></span> 修改</a>
+      <a class="button border-red" href="javascript:void(0)" onclick="del({{item[0]}},'#item{{item[0]}}')"><span class="icon-trash-o"></span> 删除</a>
+      </div></td>
+    </tr>
+      {% endfor %}
+    
+  </table>
+</div>
+<script type="text/javascript">
+function del(id,mid){
+	if(confirm("您确定要删除吗?")){
+      $.ajax({
+        url:'/delclass',
+        type:'post',
+        data:{id:id},
+        success:function(e){
+          if(e=='ok'){
+            $(mid).remove()
+          }else{
+            window.location.replace("/tips/'no'/openaddclass/3");
+          }
+        }
+      })
+	}
+}
+</script>
+<div class="panel admin-panel margin-top" id="add">
+  <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 增加内容</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="javascript:;" onsubmit="return false">
+      <div class="form-group">
+        <div class="label">
+          <label>标题：</label>
+        </div>
+        <div class="field" id="field">
+          <input type="text" class="input w50" value="" name="title" data-validate="required:请输入内容" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit" onclick="tbtn()"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+<script>
+let flag=true
+  function tbtn(){
+    let name = $("[name=title]").val()
+    if(name!=""&&flag){
+      $.ajax({
+        url:"/addclass",
+        type:"post",
+        data:{name:name},
+        success:function(e){
+          console.log(e)
+          if(e['ifo']=='ok'){
+            $("[name=title]").val("")
+
+            $("#table").append($(`
+              <tr id="item${e['id']}">
+                <td>${e['id']}</td>
+                <td>${name}</td>
+                <td><div class="button-group">
+                <a class="button border-main" href="/openmodclass${e['id']}"><span class="icon-edit"></span> 修改</a>
+                <a class="button border-red" href="javascript:void(0)" onclick="del(${e['id']},'#item${e['id']}')"><span class="icon-trash-o"></span> 删除</a>
+                </div></td>
+              </tr>
+            `))
+
+          }
+        }
+      })
+    }
+  }
+  $("[name=title]").on("change",function(){
+    let name = $("[name=title]").val()
+    if(name!=""){
+      $.ajax({
+        url:"/selectclass",
+        type:"post",
+        data:{name:name},
+        success:function(e){
+          if(e=="no"){
+            $("#field").append($(`
+              <div class="input-help">
+                <ul>
+                  <li>数据已存在</li>
+                </ul>
+              </div>
+            `))
+            flag = false
+          }else{
+            flag=true
+          }
+        }
+      })
+
+    }
+  })
+
+</script>
+
+</html>

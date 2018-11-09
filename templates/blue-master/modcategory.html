@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="static/admin/css/pintuer.css">
+<link rel="stylesheet" href="static/admin/css/admin.css">
+<script src="static/admin/js/jquery.js"></script>
+<script src="static/admin/js/pintuer.js"></script>
+</head>
+<style>
+
+  .tipss{
+    position:relative;
+  }
+  .tipss input{
+    width:103px;
+    height:41px;
+    position:absolute;
+    top:0;
+    left:-80px;
+    opacity:0;
+  }
+</style>
+
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>修改内容</strong></div>
+  <div class="body-content">
+
+    {% for item in data %}
+    <form action="javascript:;" class="form-x" enctype="multipart/form-data" id="imgform">
+
+      <div class="form-group">
+        <div class="label">
+          <label>图片：</label>
+        </div>
+        <div class="field">
+          <input type="text" id="url1" name="img" class="input tips" style="width:25%; float:left;"  value="{{item[2]}}"  data-toggle="hover" data-place="right" data-image="" />
+          <input type="button" class="button bg-blue margin-left" id="image1" value="+ 浏览上传"  style="float:left;">
+          <div class="tipss">
+            图片尺寸：500*500
+            <input type="file" name="imgurl" id="image">
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <form method="post" class="form-x" action="/modcatrgory">
+      <input type="hidden" name="imgurl1" value="{{item[2]}}">
+      <input type="hidden"  name="id" value="{{item[0]}}">
+      <div class="form-group" style="margin-bottom:0">
+        <div class="label">
+          <label>产品名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="{{item[1]}}" name="name" data-validate="required:请输入名称" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <if condition="$iscid eq 1">
+        <div class="form-group">
+          <div class="label">
+            <label>分类标题：</label>
+          </div>
+          <div class="field">
+            <select name="cid" class="input w50">
+              <option value="">请选择分类</option>
+              {% for item1 in data1 %}
+              {% if item1[0]==item[4] %}
+              <option value="{{item1[0]}}" selected>{{item1[1]}}</option>
+              {% else %}
+              <option value="{{item1[0]}}">{{item1[1]}}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+            <div class="tips"></div>
+          </div>
+        </div>
+      </if>
+      <div class="form-group">
+        <div class="label">
+          <label>描述：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="con" style=" height:90px;">{{item[3]}}</textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+</div>
+<script>
+  let file=$("[type=file]")
+  let url1=$("#url1")
+
+  file.on("change",function(){
+    let value = file.val()
+    if(value){
+      let form = new FormData($("#imgform")[0]);
+      form.append("imgurl",$("#image").val())
+      $.ajax({
+        url:"/uploadPimg",
+        type:"post",
+        data:form,
+        processData: false,
+        contentType: false,
+        success:function(e){
+          console.log(e)
+          if(e.info=='ok'){
+            url1.attr("data-image",e.imgurl).val(e.imgurl)
+            $("[name=imgurl1]").val(e.imgurl)
+          }
+        }
+      })
+
+    }
+  })
+
+
+
+</script>
+</body></html>

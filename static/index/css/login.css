@@ -1,0 +1,117 @@
+@import "base.css";
+body{
+    background-color: #F5F5F5;
+}
+header{
+    width: 100%;
+    height: .98rem;
+    background-color: #fff;
+    border-bottom: 0.01rem solid #d6d6d6;
+    color: #333;
+    text-align: center;
+    font-size: .35rem;
+    line-height: .98rem;
+    position: relative;
+}
+.head a i{
+    float: left;
+    position: absolute;
+    left: .33rem;
+    color: #333;
+}
+.baidu{
+    width: 3rem;
+    height: 1rem;
+    margin:0.7rem auto;
+    background:url("../img/baidu.png") no-repeat;
+    background-size: contain;
+}
+.input{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 0.33rem;
+    position:relative;
+}
+#tip{
+    position:absolute;
+    background: #fff;
+    border-radius:8px;
+    width:80%;
+    height:30px;
+    top:30px;
+    left:0;
+    right:0;
+    margin:0 auto;
+    font-size: 24px;
+    display；flex;
+    justify-content:center;
+}
+.input li{
+    width: 100%;
+    height: 0.92rem;
+    display: flex;
+    position: relative;
+}
+.input li input{
+    width: 100%;
+    height: 100%;
+    margin:0;
+    border: none;
+    border-bottom: 0.01rem solid #ccc;
+    border-radius: 0.05rem;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding-left: 0.33rem;
+    outline: none;
+    color: #333;
+}
+.input li input::placeholder{
+    font-size: .35rem;
+    color: #ccc;
+}
+.input li i{
+    position: absolute;
+    right:0.33rem;
+    top:0.25rem;
+    font-size: .4rem;
+    color: #ccc;
+}
+#chongzhi{
+    display: none;
+}
+button{
+    width: 100%;
+    height: 0.92rem;
+    color: #90b6ff;
+    font-size: .35rem;
+    text-align: center;
+    border: 0.01rem solid #3c76ff;
+    background: #3c76ff;
+    border-radius: 0.05rem;
+}
+.bottom{
+    width: 100%;
+    margin-top:0.33rem;
+    box-sizing: border-box;
+    padding:0 0.33rem;
+    display: flex;
+    justify-content: space-between;
+}
+.bottom h3{
+    font-size: 0.28rem;
+    color: #ccc;
+    font-weight: normal;
+}
+#zhuce{
+    color: #367cff;
+    border: 0.01rem solid #367cff;
+    padding:0.23rem;
+    width: 1.4rem;
+    border-radius: 0.05rem;
+    font-size: 0.35rem;
+    position: fixed;
+    bottom:0.5rem;
+    left: 0;
+    right: 0;
+    margin:0 auto;
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="static/admin/css/pintuer.css">
+<link rel="stylesheet" href="static/admin/css/admin.css">
+<script src="static/admin/js/jquery.js"></script>
+<script src="static/admin/js/pintuer.js"></script>
+</head>
+<body>
+<form method="post" action="" id="listform">
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+
+    <table class="table table-hover text-center">
+      <tr>
+        <th width="100" style="text-align:left; padding-left:20px;">ID</th>
+        <th>标题</th>
+        <th>作者</th>
+        <th>发表时间</th>
+        <th>图片</th>
+        <th>分类</th>
+        <th width="10%">内容</th>
+        <th width="310">操作</th>
+      </tr>
+      <volist name="list" id="vo">
+          {% for item in data %}
+        <tr id="item{{item[0]}}">
+          <td style="text-align:left; padding-left:20px;">{{item[0]}}</td>
+          <td>{{item[1]}}</td>
+          <td>{{item[2]}}</td>
+          <td>{{item[3]}}</td>
+          <td width="10%"><input type="hidden" name="imgurl" value="{{item[4]}}"></td>
+          <td>{{item[5]}}</td>
+          <td>{{item[6]}}</td>
+          <td><div class="button-group">
+            <a class="button border-main" href="/openmodcategory{{item[0]}}"><span class="icon-edit"></span> 修改</a>
+            <a class="button border-red" href="javascript:void(0)" onclick="del({{item[0]}},'#item{{item[0]}}')"><span class="icon-trash-o"></span> 删除</a>
+          </div></td>
+        </tr>
+          {% endfor %}
+      <tr>
+        <td colspan="8"><div class="pagelist">
+          {% if now!=1 %}
+          <a href="/openlistcategory1">首页</a>
+          <a href="/openlistcategory{{now-1}}">上一页</a>
+          {% else %}
+          <a href="javascript:;">首页</a>
+          <a href="javascript:;">上一页</a>
+          {% endif %}
+          {% for i in pages %}
+          {% if now==i %}
+          <span class="current">{{i}}</span>
+          {% else %}
+          <a href="">{{i}}</a>
+          {% endif %}
+          {% endfor %}
+          {% if now!=pages[-1] %}
+          <a href="/openlistcategory{{now+1}}">下一页</a>
+          <a href="/openlistcategory{{pages[-1]}}">尾页</a>
+          {% else %}
+          <a href="javascript:;">下一页</a>
+          <a href="javascript:;">尾页</a>
+          {% endif %}
+        </div></td>
+      </tr>
+      </volist>
+    </table>
+  </div>
+</form>
+<script>
+   for(let i=0;i<6;i++){
+      var tr=$("input[name='imgurl']").eq(i).val()
+      var imgurl = tr.split(",");
+      for(let j=0;j<imgurl.length;j++){
+      console.log($("td[width='10%']"))
+        $("td[width='10%']").eq(i).append($(`<img src="${imgurl[j]}" alt="" width="70" height="50" />`))
+      }
+
+   }
+
+</script>
+<script type="text/javascript">
+
+//搜索
+function changesearch(){	
+		
+}
+
+//单个删除
+function del(id,mid){
+	if(confirm("您确定要删除吗?")){
+		$.ajax({
+		  url:'/listdelcategory',
+		  type:'post',
+		  data:{id:id},
+		  success:function(e){
+		      if(e=='ok'){
+		        $(mid).remove()
+		      }
+		  }
+		})
+	}
+}
+
+//全选
+$("#checkall").click(function(){ 
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+
+//批量排序
+function sorts(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		return false;
+	}
+}
+
+
+//批量首页显示
+function changeishome(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+//批量推荐
+function changeisvouch(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");	
+		
+		return false;
+	}
+}
+
+//批量置顶
+function changeistop(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+
+//批量移动
+function changecate(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		
+		return false;
+	}
+}
+
+//批量复制
+function changecopy(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		var i = 0;
+	    $("input[name='id[]']").each(function(){
+	  		if (this.checked==true) {
+				i++;
+			}		
+	    });
+		if(i>1){ 
+	    	alert("只能选择一条信息!");
+			$(o).find("option:first").prop("selected","selected");
+		}else{
+		
+			$("#listform").submit();		
+		}	
+	}
+	else{
+		alert("请选择要复制的内容!");
+		$(o).find("option:first").prop("selected","selected");
+		return false;
+	}
+}
+
+</script>
+</body>
+</html>
